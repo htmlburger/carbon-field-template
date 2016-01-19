@@ -4,7 +4,7 @@ Step-by-step guide on how to create a new Carbon Field.
 
 ## Introduction
 
-The Carbon Fields library has many built-in fields, but you may find it necessary to define a new type of field for your specific project needs.
+The [Carbon Fields](https://github.com/htmlburger/carbon-fields) library has many built-in fields, but you may find it necessary to define a new type of field for your specific project needs.
 
 The following tutorial will explain how to create a custom Carbon Field.
 
