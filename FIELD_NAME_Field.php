@@ -1,6 +1,6 @@
 <?php
 
-use Carbon_Fields\Field\Field;
+namespace Carbon_Fields\Field;
 
 class FIELD_NAME_Field extends Field {
 	/*
