@@ -20,7 +20,7 @@ import withSetup from 'fields/decorators/with-setup';
  * @param  {Function} props.handleChange
  * @return {React.Element}
  */
-export const FieldName = ({ name, field, handleChange }) => {
+export const Custom = ({ name, field, handleChange }) => {
 	return <Field field={field}>
 		<input
 			type="text"
@@ -38,7 +38,7 @@ export const FieldName = ({ name, field, handleChange }) => {
  *
  * @type {Object}
  */
-FieldName.propTypes = {
+Custom.propTypes = {
 	name: PropTypes.string.isRequired,
 	field: PropTypes.shape({
 		id: PropTypes.string.isRequired,
@@ -57,10 +57,10 @@ FieldName.propTypes = {
  */
 const handleChange = ({ field, updateField }) => ({ target: { value } }) => updateField(field.id, { value });
 
-export default setStatic('type', 'FIELD_TYPE')(
+export default setStatic('type', 'Custom')(
 	compose(
 		withStore(),
 		withSetup(),
 		withHandlers({ handleChange })
-	)(FieldName)
+	)(Custom)
 );

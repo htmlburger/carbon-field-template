@@ -7,10 +7,10 @@ are both in the /plugins dir. Change it according to your needs
 const root = path.resolve(__dirname, '../carbon-fields');
 
 module.exports = {
-	entry: './src/bootstrap.js',
+	context: __dirname,
+	entry: './assets/react/bootstrap.js',
 	output: {
-		path: path.resolve(__dirname, './js'),
-		publicPath: '/js/',
+		path: path.resolve(__dirname, 'assets/js/'),
 		filename: 'bundle.js'
 	},
 
@@ -27,7 +27,7 @@ module.exports = {
 	resolve: {
 		modules: [
 			path.resolve(root, 'assets/react'),
-			path.resolve(__dirname, 'src'),
+			path.resolve(__dirname, 'assets/react'),
 			'node_modules'
 		]
 	},
