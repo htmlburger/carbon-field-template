@@ -1,6 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
-const root = path.resolve(__dirname, '../../themes/mytheme/vendor/htmlburger/carbon-fields');
+/*
+This path assumes that Carbon Fields and the current template
+are both in the /plugins dir. Change it according to your needs
+*/
+const root = path.resolve(__dirname, '../carbon-fields');
 
 module.exports = {
 	entry: './src/bootstrap.js',
