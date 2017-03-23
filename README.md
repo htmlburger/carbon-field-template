@@ -16,29 +16,28 @@ You can download the template from here: https://github.com/htmlburger/carbon-fi
 
 Template Structure
 
-- `/css` - css folder
-- `/images` - images folder
-- `/js` - JavaScript built files folder
+- `/assets`
+    - `/css` - css folder
+        - `/images` - images folder
+    - `/js` - JavaScript built files folder
+    - `/react`
+        - `/components` - React Components folder
+- `/core`
+    - `CUSTOM_Field.php` - Carbon Field class file
 - `/languages` - folder for .po, .mo and .pot files
-- `/src` - JavaScript files folder
-- `FIELD_NAME_Field-plugin.php` - main plugin file
-- `FIELD_NAME_Field.php` - Carbon Field class file
+- `CUSTOM_Field-plugin.php` - main plugin file
 
-### Step 2: Webpack configuration
+### Step 2: Name your field
 
-Open `webpack.config.js` and make sure that the `root` variable is set to point to the location of the Carbon Fields library.
-
-### Step 3: Name your field
-
-Replace the FIELD_NAME placeholder in the template files with the name of your custom field. Also rename the PHP files.
+Replace the `CUSTOM` and `Custom` placeholders in the template files with the name of your custom field. Also rename the PHP files.
 
 **NB!** If your field name contains multiple words, for example Image Gallery, your class names should look like this:
 
 * **PHP class:** `Image_Gallery_Field`
-* **JS src/bootstrap.js:** `ImageGallery`
-* **JS src/components/field.js:** `ImageGallery`
+* **JS assets/react/bootstrap.js:** `ImageGallery`
+* **JS assets/react/components/field.js:** `ImageGallery`
 
-### Step 4: Customize
+### Step 3: Customize
 
 Here is a quick overview of some of the methods you can customize:
 
@@ -54,14 +53,7 @@ The JSON object is used by React when rendering the field.
 
 Used to enqueue CSS/JavaScript files.
 
-`admin_init()`
-
-Called for each field instance when the field is initialized. (back-end)
-
-`init()`
-
-Called for each field instance when the field is initialized. (back-end, front-end)
-
-### Step 5: Building
+#### JS
+Open `webpack.config.js` and make sure that the `root` variable is set to point to the location of the Carbon Fields library.
 
 In order to build the JS, run `npm run dev` or `yarn dev`.
