@@ -32,10 +32,10 @@ class CUSTOM_Field extends Field {
 		$template_dir = get_template_directory_uri();
 
 		// Get the current url for the carbon-fields-number, regardless of the location
-		$template_dir .= str_replace( wp_normalize_path( get_template_directory() ), '', wp_normalize_path( __DIR__ ) );
+		$template_dir .= str_replace( wp_normalize_path( get_template_directory() ), '', wp_normalize_path( dirname( __DIR__ ) ) );
 
 		# Enqueue JS
-		wp_enqueue_script( 'carbon-field-FIELD_NAME', $template_dir . '/assets/js/bundle.js', array( 'carbon-fields-bootstrap' ) );
+		wp_enqueue_script( 'carbon-field-FIELD_NAME', $template_dir . '/assets/dist/bundle.js', array( 'carbon-fields-boot' ) );
 
 		# Enqueue CSS
 		# wp_enqueue_style( 'carbon-field-FIELD_NAME', $template_dir . '/assets/css/field.css' );
