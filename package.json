@@ -2,7 +2,8 @@
   "name": "carbon-field-template",
   "version": "1.0.0",
   "scripts": {
-    "dev": "webpack"
+    "dev": "webpack --progress --watch",
+    "build": "webpack --progress"
   },
   "author": "htmlburger",
   "contributors": {
