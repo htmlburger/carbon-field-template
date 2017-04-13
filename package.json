@@ -1,6 +1,6 @@
 {
   "name": "carbon-field-template",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "dev": "webpack --progress --watch",
     "build": "webpack --progress"
