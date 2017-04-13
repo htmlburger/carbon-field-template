@@ -2,6 +2,6 @@
  * The internal dependencies.
  */
 import { registerFieldComponent } from 'lib/registry';
-import Custom from 'components/field';
+import CustomField from 'components/field';
 
-registerFieldComponent('CUSTOM', Custom);
+registerFieldComponent('CUSTOM', CustomField);
