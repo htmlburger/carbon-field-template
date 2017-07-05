@@ -1,0 +1,20 @@
+{
+    "name": "htmlburger/carbon-field-YOURFIELDNAME",
+    "description": "Carbon Fields extension, that adds a YOURFIELDNAME field type.",
+    "keywords": ["wordpress", "carbon-field", "carbon-field-YOURFIELDNAME"],
+    "homepage": "",
+    "type": "library",
+    "license": "GPL-2.0+",
+    "authors": [],
+    "require": {
+        "htmlburger/carbon-fields": "^2.0"
+    },
+    "autoload": {
+        "files": [
+            "field.php"
+        ],
+        "psr-4": {
+            "Carbon_Field_YOURFIELDNAME\\": "core/"
+        }
+    }
+}
