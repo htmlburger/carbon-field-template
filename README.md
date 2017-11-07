@@ -49,9 +49,7 @@ Here is a quick overview of some of the methods you can customize:
 
 `to_json()`
 
-You can use this method to modify the field properties that are added to the JSON object.
-
-The JSON object is used by the Backbone Model and the Underscore template.
+You can use this method to modify the field properties that are passed to the React component which represents the field.
 
 `field_type_activated`
 
