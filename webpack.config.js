@@ -1,12 +1,22 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
+const OptimizeCssAssetsPlugin = require( 'optimize-css-assets-webpack-plugin' );
+const TerserPlugin = require( 'terser-webpack-plugin' );
+
+/**
+ * Indicates if we're running the build process in production mode.
+ *
+ * @type {Boolean}
+ */
+const isProduction = process.env.NODE_ENV === 'production';
 
 /**
  * This path assumes that Carbon Fields and the current template
  * are both in the `/vendor` directory inside your theme - change the path if needed.
  */
-const root = path.resolve(__dirname, '../../htmlburger/carbon-fields');
+const root = path.resolve(__dirname, '../vendor/htmlburger/carbon-fields');
 
 if (!fs.existsSync(root)) {
     console.error('Could not find Carbon Fields folder.');
@@ -27,10 +37,36 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader',
-                options: {
-                    cacheDirectory: true
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        cacheDirectory: true
+                    }
                 }
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 3
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader'
+                    },
+                    {
+                        loader: 'sass-loader'
+                    },
+                    {
+                        loader: 'sass-resources-loader',
+                        options: {
+                            resources: path.resolve( __dirname, 'assets/styles/*.scss' )
+                        }
+                    }
+                ]
             }
         ]
     },
@@ -38,31 +74,37 @@ module.exports = {
     resolve: {
         modules: [
             path.resolve(__dirname, 'assets/js'),
-            path.resolve(root, 'assets/js'),
+            path.resolve(root, 'packages'),
             'node_modules'
         ]
     },
 
     plugins: [
-        new webpack.ProvidePlugin({
-            'jQuery': 'jquery'
-        }),
+        new MiniCssExtractPlugin( {
+            filename: isProduction ? '[name].min.css' : '[name].css'
+        } ),
 
-        new webpack.DllReferencePlugin({
-            sourceType: 'this',
-            manifest: require(path.resolve(root, 'assets/dist/carbon.vendor.json')),
-        }),
-
-        new webpack.DllReferencePlugin({
-            context: root,
-            sourceType: 'this',
-            manifest: require(path.resolve(root, 'assets/dist/carbon.core.json'))
-        })
+        ...(
+            isProduction
+            ? [
+                new OptimizeCssAssetsPlugin( {
+                    cssProcessorPluginOptions: {
+                        preset: [ 'default', { discardComments: { removeAll: true } } ]
+                    }
+                } ),
+                new TerserPlugin( {
+                    cache: true,
+                    parallel: true
+                } )
+            ]
+            : []
+        )
     ],
 
-    externals: {
-        'jquery': 'jQuery'
-    },
-
-    devtool: '#cheap-module-eval-source-map'
+    stats: {
+        modules: false,
+        hash: false,
+        builtAt: false,
+        children: false
+    }
 };
