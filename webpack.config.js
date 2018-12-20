@@ -5,6 +5,7 @@ const path = require( 'path' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const OptimizeCssAssetsPlugin = require( 'optimize-css-assets-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
+const { ProvidePlugin } = require( 'webpack' );
 
 /**
  * Indicates if we're running the build process in production mode.
@@ -62,7 +63,7 @@ module.exports = {
 		'classnames',
 		'lodash'
 	].reduce( ( memo, name ) => {
-		memo[ name ] = `cf.vendor.${ name }`;
+		memo[ name ] = `cf.vendor['${ name }']`;
 
 		return memo;
 	}, {
@@ -71,6 +72,10 @@ module.exports = {
 	plugins: [
 		new MiniCssExtractPlugin( {
 			filename: isProduction ? '[name].min.css' : '[name].css'
+		} ),
+
+		new ProvidePlugin( {
+			'wp.element': '@wordpress/element'
 		} ),
 
 		...(
