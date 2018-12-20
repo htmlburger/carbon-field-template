@@ -1,3 +1,8 @@
+/**
+ * The internal dependencies.
+ */
+import './style.scss';
+
 const wp = {
 	element: window.cf.vendor['@wordpress/element']
 };
