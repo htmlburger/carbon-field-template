@@ -1,8 +1,8 @@
-const { Component } = window.cf.vendor['@wordpress/element'];
+const wp = {
+	element: window.cf.vendor['@wordpress/element']
+};
 
-console.log( Component );
-
-class YOURFIELDNAMEField extends Component {
+class YOURFIELDNAMEField extends wp.element.Component {
 	/**
 	 * Handles the change of the input.
 	 *
