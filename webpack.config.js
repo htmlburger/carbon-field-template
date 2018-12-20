@@ -1,8 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
-const OptimizeCssAssetsPlugin = require( 'optimize-css-assets-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
 /**
@@ -43,30 +41,6 @@ module.exports = {
                         cacheDirectory: true
                     }
                 }
-            },
-            {
-                test: /\.scss$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            importLoaders: 3
-                        }
-                    },
-                    {
-                        loader: 'postcss-loader'
-                    },
-                    {
-                        loader: 'sass-loader'
-                    },
-                    {
-                        loader: 'sass-resources-loader',
-                        options: {
-                            resources: path.resolve( __dirname, 'assets/styles/*.scss' )
-                        }
-                    }
-                ]
             }
         ]
     },
@@ -80,18 +54,9 @@ module.exports = {
     },
 
     plugins: [
-        new MiniCssExtractPlugin( {
-            filename: isProduction ? '[name].min.css' : '[name].css'
-        } ),
-
         ...(
             isProduction
             ? [
-                new OptimizeCssAssetsPlugin( {
-                    cssProcessorPluginOptions: {
-                        preset: [ 'default', { discardComments: { removeAll: true } } ]
-                    }
-                } ),
                 new TerserPlugin( {
                     cache: true,
                     parallel: true

@@ -46,7 +46,7 @@ class YOURFIELDNAME_Field extends Field {
 		$root_uri = \Carbon_Fields\Carbon_Fields::directory_to_url( \Carbon_Field_YOURFIELDNAME\DIR );
 
 		# Enqueue JS
-		wp_enqueue_script( 'carbon-field-YOURFIELDNAME', $root_uri . '/assets/js/bundle.js', array( 'carbon-fields-boot' ) );
+		wp_enqueue_script( 'carbon-field-YOURFIELDNAME', $root_uri . '/assets/js/bundle.js', array( 'carbon-fields-core' ) );
 
 		# Enqueue CSS
 		wp_enqueue_style( 'carbon-field-YOURFIELDNAME', $root_uri . '/assets/css/field.css' );
