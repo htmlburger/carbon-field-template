@@ -3,4 +3,10 @@
  */
 import { registerFieldType } from '@carbon-fields/core';
 
-registerFieldType('yourfieldname', () => "I'm third party plugin");
+/**
+ * Internal dependencies.
+ */
+import YourFieldNameField from './field';
+// import './style.scss';
+
+registerFieldType( 'yourfieldname', YourFieldNameField );
