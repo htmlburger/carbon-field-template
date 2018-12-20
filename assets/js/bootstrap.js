@@ -1,7 +1,7 @@
 /**
  * The internal dependencies.
  */
-import { registerFieldComponent } from 'lib/registry';
+import { registerFieldType } from 'core/registry/fields';
 import YOURFIELDNAMEField from 'components/field';
 
-registerFieldComponent('yourfieldname', YOURFIELDNAMEField);
+registerFieldType('yourfieldname', YOURFIELDNAMEField);

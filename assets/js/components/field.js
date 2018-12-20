@@ -1,88 +1,45 @@
-/**
- * The external dependencies.
- */
-import React from 'react';
-import PropTypes from 'prop-types';
-import { compose, withHandlers, setStatic } from 'recompose';
+const { Component } = window.cf.vendor['@wordpress/element'];
 
-/**
- * The internal dependencies.
- */
-import Field from 'fields/components/field';
-import withStore from 'fields/decorators/with-store';
-import withSetup from 'fields/decorators/with-setup';
+class YOURFIELDNAMEField extends Component {
+	/**
+	 * Handles the change of the input.
+	 *
+	 * @param  {Object} e
+	 * @return {void}
+	 */
+	handleChange = ( e ) => {
+		const { id, onChange } = this.props;
 
-/**
- * Render a number input field.
- *
- * @param  {Object}        props
- * @param  {String}        props.name
- * @param  {Object}        props.field
- * @param  {Function}      props.handleChange
- * @return {React.Element}
- */
-export const YOURFIELDNAMEField = ({
-	name,
-	field,
-	handleChange
-}) => {
-	return <Field field={field}>
-		<input
-			type="number"
-			id={field.id}
-			name={name}
-			value={field.value}
-			disabled={!field.ui.is_visible}
-			className="regular-text"
-			max={field.max}
-			min={field.min}
-			step={field.step}
-			onChange={handleChange} />
-	</Field>;
+		onChange( id, e.target.value );
+	}
+
+	/**
+	 * Render a color input field.
+	 *
+	 * @return {React.Element}
+	 */
+	render() {
+		const {
+			id,
+			name,
+			value,
+			field
+		} = this.props;
+
+		return (
+			<input
+				type="number"
+				id={id}
+				name={name}
+				value={value}
+				className="regular-text"
+				max={field.max}
+				min={field.min}
+				step={field.step}
+				onChange={this.handleChange} />
+		);
+	}
 }
 
-/**
- * Validate the props.
- *
- * @type {Object}
- */
-YOURFIELDNAMEField.propTypes = {
-	name: PropTypes.string,
-	field: PropTypes.shape({
-		id: PropTypes.string,
-		value: PropTypes.string,
-		min: PropTypes.number,
-		max: PropTypes.number,
-		step: PropTypes.number,
-	}),
-	handleChange: PropTypes.func,
-};
-
-/**
- * The enhancer.
- *
- * @type {Function}
- */
-export const enhance = compose(
-	/**
-	 * Connect to the Redux store.
-	 */
-	withStore(),
-
-	/**
-	 * Attach the setup hooks.
-	 */
-	withSetup(),
-
-	/**
-	 * The handlers passed to the component.
-	 */
-	withHandlers({
-		handleChange: ({ field, setFieldValue }) => ({ target: { value } }) => setFieldValue(field.id, value),
-	})
-);
-
-export default setStatic('type', [
-	'yourfieldname',
-])(enhance(YOURFIELDNAMEField));
+export default YOURFIELDNAMEField;
 
