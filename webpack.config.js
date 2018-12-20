@@ -1,6 +1,9 @@
-const fs = require('fs');
-const path = require('path');
-const webpack = require('webpack');
+/**
+ * External dependencies.
+ */
+const path = require( 'path' );
+const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
+const OptimizeCssAssetsPlugin = require( 'optimize-css-assets-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
 /**
@@ -10,66 +13,86 @@ const TerserPlugin = require( 'terser-webpack-plugin' );
  */
 const isProduction = process.env.NODE_ENV === 'production';
 
-/**
- * This path assumes that Carbon Fields and the current template
- * are both in the `/vendor` directory inside your theme - change the path if needed.
- */
-const root = path.resolve(__dirname, '../vendor/htmlburger/carbon-fields');
-
-if (!fs.existsSync(root)) {
-    console.error('Could not find Carbon Fields folder.');
-    process.exit(1);
-    return;
-}
-
 module.exports = {
-    entry: './assets/js/bootstrap.js',
+	entry: {
+		bundle: './src/index.js'
+	},
+	output: {
+		path: path.resolve( __dirname, 'build' ),
+		filename: isProduction ? '[name].min.js' : '[name].js'
+	},
+	module: {
+		rules: [
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						cacheDirectory: true
+					}
+				}
+			},
+			{
+				test: /\.scss$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					{
+						loader: 'css-loader',
+						options: {
+							importLoaders: 2
+						}
+					},
+					{
+						loader: 'postcss-loader'
+					},
+					{
+						loader: 'sass-loader'
+					}
+				]
+			}
+		]
+	},
+	externals: [
+		'@wordpress/compose',
+		'@wordpress/data',
+		'@wordpress/element',
+		'@wordpress/hooks',
+		'@wordpress/i18n',
+		'classnames',
+		'lodash'
+	].reduce( ( memo, name ) => {
+		memo[ name ] = `cf.vendor.${ name }`;
 
-    output: {
-        path: path.resolve(__dirname, 'assets/js'),
-        filename: 'bundle.js'
-    },
+		return memo;
+	}, {
+		'@carbon-fields/core': 'cf.core'
+	} ),
+	plugins: [
+		new MiniCssExtractPlugin( {
+			filename: isProduction ? '[name].min.css' : '[name].css'
+		} ),
 
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        cacheDirectory: true
-                    }
-                }
-            }
-        ]
-    },
-
-    resolve: {
-        modules: [
-            path.resolve(__dirname, 'assets/js'),
-            path.resolve(root, 'packages'),
-            'node_modules'
-        ]
-    },
-
-    plugins: [
-        ...(
-            isProduction
-            ? [
-                new TerserPlugin( {
-                    cache: true,
-                    parallel: true
-                } )
-            ]
-            : []
-        )
-    ],
-
-    stats: {
-        modules: false,
-        hash: false,
-        builtAt: false,
-        children: false
-    }
+		...(
+			isProduction
+			? [
+				new OptimizeCssAssetsPlugin( {
+					cssProcessorPluginOptions: {
+						preset: [ 'default', { discardComments: { removeAll: true } } ]
+					}
+				} ),
+				new TerserPlugin( {
+					cache: true,
+					parallel: true
+				} )
+			]
+			: []
+		)
+	],
+	stats: {
+		modules: false,
+		hash: false,
+		builtAt: false,
+		children: false
+	}
 };

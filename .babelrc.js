@@ -1,6 +1,5 @@
-{
-	"compact": false,
-	"presets": [
+module.exports = {
+	presets: [
 		[ '@babel/preset-env', {
 			modules: false
 		} ],
@@ -9,19 +8,19 @@
 			pragmaFrag: 'wp.element.Fragment'
 		} ]
 	],
-	"plugins": [
+	plugins: [
 		'@babel/plugin-proposal-class-properties',
 		'@babel/plugin-proposal-object-rest-spread',
 		'@babel/plugin-syntax-async-generators',
 		'@babel/plugin-transform-runtime'
 	],
-	"env": {
-		"production": {
-			"plugins": [
-				[ "@wordpress/babel-plugin-makepot", {
-					"output": "languages/carbon-fields-YOURFIELDNAME.pot"
+	env: {
+		production: {
+			plugins: [
+				[ '@wordpress/babel-plugin-makepot', {
+					output: 'languages/carbon-fields-YOURFIELDNAME.pot'
 				} ]
 			]
 		}
 	}
-}
+};
